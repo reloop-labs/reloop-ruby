@@ -1,0 +1,12 @@
+# Ruby dependencies and gems
+/.bundle/
+/vendor/bundle/
+/pkg/
+/tmp/
+*.gem
+
+# IDE and OS
+.DS_Store
+.idea/
+.vscode/
+*.log
