@@ -42,5 +42,13 @@ module Reloop
     def api_keys
       @api_keys ||= Services::ApiKey.new(self)
     end
+
+    def domain
+      @domain ||= Services::Domain.new(self)
+    end
+
+    def contacts
+      @contacts ||= Services::Contacts.new(self)
+    end
   end
 end

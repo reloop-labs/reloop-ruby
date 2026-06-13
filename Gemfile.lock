@@ -1,0 +1,29 @@
+PATH
+  remote: .
+  specs:
+    reloop (0.1.0)
+      faraday (~> 2.0)
+      json (~> 2.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    base64 (0.3.0)
+    faraday (2.8.1)
+      base64
+      faraday-net_http (>= 2.0, < 3.1)
+      ruby2_keywords (>= 0.0.4)
+    faraday-net_http (3.0.2)
+    json (2.7.6)
+    minitest (5.25.4)
+    ruby2_keywords (0.0.5)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  minitest (~> 5.0)
+  reloop!
+
+BUNDLED WITH
+   1.17.2
