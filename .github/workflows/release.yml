@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read package version
+        id: meta
+        run: |
+          VERSION=$(ruby -e "require 'rubygems'; spec = Gem::Specification.load(Dir['*.gemspec'].first); puts spec.version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+          echo "archive=reloop-ruby-$VERSION-source.zip" >> "$GITHUB_OUTPUT"
+
+      - name: Verify tag matches gemspec
+        if: github.ref_type == 'tag'
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          PKG_VERSION="${{ steps.meta.outputs.version }}"
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "Tag v$TAG_VERSION does not match gemspec version $PKG_VERSION"
+            exit 1
+          fi
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+
+      - name: Test and build gem
+        run: |
+          ruby -Itest test/domain_test.rb
+          ruby -Itest test/mail_test.rb
+          ruby -Itest test/contacts_test.rb
+          gem build *.gemspec
+
+      - name: Create source archive
+        run: |
+          zip -r "${{ steps.meta.outputs.archive }}" . \
+            -x '*.git*' 'vendor/*' '.github/*'
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          name: Reloop Ruby SDK ${{ steps.meta.outputs.tag }}
+          generate_release_notes: true
+          files: |
+            ${{ steps.meta.outputs.archive }}
+            *.gem
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
