@@ -50,5 +50,9 @@ module Reloop
     def contacts
       @contacts ||= Services::Contacts.new(self)
     end
+
+    def mail
+      @mail ||= Services::Mail.new(self)
+    end
   end
 end

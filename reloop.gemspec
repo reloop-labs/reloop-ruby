@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = "reloop"
-  spec.version       = "0.1.0"
+  spec.version       = "1.8.0"
   spec.authors       = ["Reloop Labs"]
   spec.email         = ["support@reloop.sh"]
   spec.summary       = "Reloop Ruby SDK"
