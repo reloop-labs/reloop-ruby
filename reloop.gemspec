@@ -6,9 +6,9 @@ Gem::Specification.new do |spec|
   spec.summary       = "Reloop Ruby SDK"
   spec.description   = "Reloop Ruby SDK for interacting with the Reloop API"
   spec.homepage      = "https://reloop.sh"
-  spec.license       = "MIT"
+  spec.license       = "Apache-2.0"
 
-  spec.files         = Dir["lib/**/*"]
+  spec.files         = Dir["lib/**/*"] + ["LICENSE"]
   spec.require_paths = ["lib"]
 
   spec.add_dependency "faraday", "~> 2.0"
